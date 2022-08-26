@@ -20,8 +20,8 @@ server.post('/sign-up', (req, res) => {
 
 server.post('/tweets', (req, res) => {
     const newTweet = req.body;
-
-    twetts.push({username: newTweet.username, tweet: newTweet.tweet});
+    const searchAccount = accounts.find(value => value.username === newTweet.username)
+    twetts.push({username: newTweet.username, avatar: searchAccount.avatar, tweet: newTweet.tweet});
     res.send("OK");
 })
 
