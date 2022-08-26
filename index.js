@@ -13,17 +13,20 @@ const twetts = [
 ];
 
 server.post('/sign-up', (req, res) => {
-    const user = req.body;
+    const { username, avatar } = req.body;
+    if (!username || !avatar) {
+        return res.status(400).send({error: "Envie todos os campos"})
+    }
     accounts.push({
-        username: user.username,
-        avatar: user.avatar});
+        username: username,
+        avatar: avatar});
     res.send("OK");
 });
 
 server.post('/tweets', (req, res) => {
     const { username, tweet } = req.body;
     if (!username || !tweet) {
-        return res.status(400).send({erro: "Envie todos os campos"})
+        return res.status(400).send({error: "Envie todos os campos"})
     }
     const searchAccount = accounts.find(value => value.username === username)
     twetts.push({
