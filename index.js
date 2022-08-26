@@ -14,18 +14,34 @@ const twetts = [
 
 server.post('/sign-up', (req, res) => {
     const user = req.body;
-    accounts.push({username: user.username, avatar: user.avatar});
+    accounts.push({
+        username: user.username,
+        avatar: user.avatar});
     res.send("OK");
 });
 
 server.post('/tweets', (req, res) => {
-    const newTweet = req.body;
-    const searchAccount = accounts.find(value => value.username === newTweet.username)
-    twetts.push({username: newTweet.username, avatar: searchAccount.avatar, tweet: newTweet.tweet});
+    const { username, tweet } = req.body;
+    if (!username || !tweet) {
+        return res.status(400).send({erro: "Envie todos os campos"})
+    }
+    const searchAccount = accounts.find(value => value.username === username)
+    twetts.push({
+        username: username,
+        avatar: searchAccount.avatar, 
+        tweet: tweet});
     res.send("OK");
 })
 
 server.get('/tweets', (req, res) => {
+    let tweetServer = [];
+    if(twetts.length >= 10) {
+        for (let i = twetts.length -1; i > (twetts.length - 11); i--) {
+            tweetServer.push(twetts[i]);
+        }
+        res.send(tweetServer);
+        return;
+    }
     res.send(twetts);
 });
 
