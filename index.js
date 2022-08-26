@@ -20,7 +20,7 @@ server.post('/sign-up', (req, res) => {
     accounts.push({
         username: username,
         avatar: avatar});
-    res.send("OK");
+    res.status(201).send("OK");
 });
 
 server.post('/tweets', (req, res) => {
@@ -33,7 +33,7 @@ server.post('/tweets', (req, res) => {
         username: username,
         avatar: searchAccount.avatar, 
         tweet: tweet});
-    res.send("OK");
+    res.status(201).send("OK");
 })
 
 server.get('/tweets', (req, res) => {
