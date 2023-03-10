@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Tweet } from "../models/Tweet";
-import authController from "./auth.controller";
+import { getLoggedUserService } from "../useCases/Users/getLoggedUser";
 
 class TweetController {
   private tweets: Tweet[];
@@ -17,7 +17,7 @@ class TweetController {
       return res.status(400).send({ error: "Envie todos os campos" });
     }
 
-    const { avatar } = authController.getLoggedUser(username);
+    const { avatar } = getLoggedUserService.execute(username);
 
     this.tweets.push({ username, avatar, tweet });
 
