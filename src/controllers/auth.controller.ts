@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Usuario } from "../../models/Usuarios";
+import { Usuario } from "../models/Usuarios";
 
 class AuthController {
   usuarios: Usuario[];
@@ -10,7 +10,7 @@ class AuthController {
     this.getLoggedUser = this.getLoggedUser.bind(this);
   }
 
-  signin(req: Request, res: Response) {
+  signin(req: Request, res: Response): Response {
     const { username, avatar } = req.body;
     if (!username || !avatar) {
       return res.status(400).send({ error: "Envie todos os campos" });
@@ -25,11 +25,17 @@ class AuthController {
       avatar,
     });
 
-    res.status(201).send("OK");
+    return res.status(201).send("OK");
   }
 
-  getLoggedUser(username: string) {
-    return this.usuarios.find((value) => value.username === username);
+  getLoggedUser(username: string): Usuario {
+    const user = this.usuarios.find((value) => value.username === username);
+
+    if (!user) {
+      throw new Error("User não existe!");
+    }
+
+    return user;
   }
 }
 

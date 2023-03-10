@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
-import authRouter from "./routes/auth.router.js";
-import tweetRouter from "./routes/tweet.router.js";
+import authRouter from "./routes/auth.router";
+import tweetRouter from "./routes/tweet.router";
 
 const server = express();
 server.use(cors());
