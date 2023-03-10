@@ -1,19 +1,24 @@
+import { Request, Response } from "express";
+import { Usuario } from "../../models/Usuarios";
+
 class AuthController {
+  usuarios: Usuario[];
+
   constructor() {
     this.usuarios = [];
     this.signin = this.signin.bind(this);
     this.getLoggedUser = this.getLoggedUser.bind(this);
   }
 
-  signin(req, res) {
+  signin(req: Request, res: Response) {
     const { username, avatar } = req.body;
     if (!username || !avatar) {
       return res.status(400).send({ error: "Envie todos os campos" });
     }
 
-    //if (usuarios.find((value) => value.username === username)) {
-    //  return res.status(400).send({ error: "Esta conta já existe!" });
-    //}
+    if (this.usuarios.find((value) => value.username === username)) {
+      return res.status(400).send({ error: "Esta conta já existe!" });
+    }
 
     this.usuarios.push({
       username,
@@ -23,7 +28,7 @@ class AuthController {
     res.status(201).send("OK");
   }
 
-  getLoggedUser(username) {
+  getLoggedUser(username: string) {
     return this.usuarios.find((value) => value.username === username);
   }
 }
