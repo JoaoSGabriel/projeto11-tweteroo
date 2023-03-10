@@ -3,7 +3,7 @@ import { Tweet } from "../models/Tweet";
 import authController from "./auth.controller";
 
 class TweetController {
-  tweets: Tweet[];
+  private tweets: Tweet[];
 
   constructor() {
     this.tweets = [];
